@@ -8,5 +8,5 @@ allprojects {
 	}
 
 	dependencies {
-	        implementation 'com.github.wyw940323:RecylerLibrary:v1.0.0'
+	        implementation 'com.github.wyw940323:RecylerLibrary:master'
 	}
