@@ -45,9 +45,20 @@ public class RefreshRecyclerView extends FrameLayout implements SwipeRefreshLayo
         View view = inflate(context, R.layout.view_refresh_recycler, this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.lemon_recycler_view);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.lemon_refresh_layout);
+
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RefreshRecyclerView);
+        mLoadMoreEnable = typedArray.getBoolean(R.styleable.RefreshRecyclerView_load_more_enable, true);
+        mShowNoMoreEnable = typedArray.getBoolean(R.styleable.RefreshRecyclerView_show_no_more_enable, true);
+        boolean refreshEnable = typedArray.getBoolean(R.styleable.RefreshRecyclerView_refresh_enable, true);
+        if (!refreshEnable) {
+            mSwipeRefreshLayout.setEnabled(false);
+        } else {
+            mSwipeRefreshLayout.setOnRefreshListener(this);
+        }
+        typedArray.recycle();
     }
 
-    public void setAdapter(RecyclerAdapter adapter,boolean mLoadMoreEnable,boolean mShowNoMoreEnable) {
+    public void setAdapter(RecyclerAdapter adapter) {
         if (adapter == null) {
             return;
         }
@@ -55,8 +66,6 @@ public class RefreshRecyclerView extends FrameLayout implements SwipeRefreshLayo
         mAdapter = adapter;
         mAdapter.setLoadMoreEnable(mLoadMoreEnable);
         mAdapter.setShowNoMoreEnable(mShowNoMoreEnable);
-        this.mLoadMoreEnable = mLoadMoreEnable;
-        this.mShowNoMoreEnable = mShowNoMoreEnable;
     }
 
     public void setLayoutManager(final RecyclerView.LayoutManager layoutManager) {
@@ -164,8 +173,9 @@ public class RefreshRecyclerView extends FrameLayout implements SwipeRefreshLayo
         LogUtils.log(TAG, content);
     }
 
+    //能或刷新
     public void setrefreshEnable(boolean refreshEnable){
-                if (!refreshEnable) {
+        if (!refreshEnable) {
             mSwipeRefreshLayout.setEnabled(false);
         } else {
             mSwipeRefreshLayout.setOnRefreshListener(this);
