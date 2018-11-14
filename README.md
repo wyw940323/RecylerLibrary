@@ -8,5 +8,5 @@ allprojects {
 	}
 
 	dependencies {
-	        implementation 'com.github.wyw940323:RecylerLibrary:Tag'
+	         implementation 'com.github.wyw940323:RecylerLibrary:v1.0.1'
 	}
